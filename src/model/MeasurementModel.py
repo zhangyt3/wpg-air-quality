@@ -1,6 +1,7 @@
 from pynamodb.models import Model
 from pynamodb.attributes import UnicodeAttribute, NumberAttribute
 
+
 class MeasurementModel(Model):
     """
     A single measurement.

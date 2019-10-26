@@ -1,16 +1,32 @@
 import json
 
+from model.MeasurementModel import MeasurementModel
+
+
+LOCATIONS = ["River East", "St. Boniface #2", "St. James East", "Transcona #2"]
 
 def air_quality(event, context):
-    body = {
-        "message": "Go Serverless v1.0! Your function executed successfully!",
-        "input": event
-    }
+    """
+    Just queries the database for the latest measurements and returns them.
+    """
+    measurements = []
+    for name in LOCATIONS:
+        res = MeasurementModel.query(
+            name,
+            limit=1,
+            scan_index_forward=False,
+            range_key_condition=MeasurementModel.sk.startswith('2')
+        )
+        latest = res.next()
+        
+        res = dict()
+        res['location'] = latest.location
+        res['measurement'] = latest.value
+        res['time'] = latest.sk
 
-    response = {
-        "statusCode": 200,
-        "body": json.dumps(body)
-    }
+        measurements.append(res)
 
-    return response
+    return json.dumps({
+        'measurements': measurements
+    })
 

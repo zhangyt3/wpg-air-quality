@@ -1,6 +1,7 @@
 from pynamodb.models import Model
 from pynamodb.attributes import UnicodeAttribute, NumberAttribute
 
+
 class LocationModel(Model):
     """
     A location: name, latitude, longitude.
