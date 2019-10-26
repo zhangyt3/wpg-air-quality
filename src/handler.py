@@ -23,10 +23,15 @@ def air_quality(event, context):
         res['location'] = latest.location
         res['measurement'] = latest.value
         res['time'] = latest.sk
+        res['unit'] = latest.unit
 
         measurements.append(res)
 
-    return json.dumps({
+    body = {
         'measurements': measurements
-    })
+    }
+    return {
+        'statusCode': 200,
+        'body': json.dumps(body)
+    }
 

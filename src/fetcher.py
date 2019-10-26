@@ -1,5 +1,6 @@
 import logging
 import datetime
+import json
 
 import requests
 
@@ -38,7 +39,8 @@ def fetch(event, context):
                 m = MeasurementModel(
                     location=name,
                     sk=time,
-                    value=value
+                    value=value,
+                    unit=unit
                 )
                 m.save()
 
@@ -91,7 +93,7 @@ def get_measurement(link: str, cutoff_days: int = 7):
     if 'errorId' in response:
         log.warning(f"Code: {response['code']}, Message: {response['message']}")
         return None, None
-    elif 'value' not in response:
+    elif 'value' not in response or not response['value']:
         log.warning(f"No new measurements in the past {cutoff_days} from {link}")
         return None, None
     

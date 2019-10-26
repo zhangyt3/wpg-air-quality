@@ -13,3 +13,4 @@ class MeasurementModel(Model):
     # sk set to current time
     sk = UnicodeAttribute(range_key=True)
     value = NumberAttribute()
+    unit = UnicodeAttribute()
