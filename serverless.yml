@@ -67,7 +67,7 @@ functions:
   fetch:
     handler: src/fetcher.fetch
     events:
-      - schedule: rate(15 minutes)
+      - schedule: rate(30 minutes)
 
 resources:
   Resources:

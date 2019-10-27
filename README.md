@@ -9,6 +9,8 @@ Winnipeg provides [an API](https://data.winnipeg.ca/Organizational-Support-Servi
 
 The `fetch` Lambda function runs every 15 minutes and queries Winnipeg's air quality API. The measurements retrieved are stored in a DynamoDB table.
 
-Another Lambda function named `air_quality` just queries the DynamoDB table and returns a list of all the latest readings.
+Another Lambda function `air_quality_map` queries the DynamoDB table and displays the latest readings on a map.
 
-Live: https://winnipegairquality.com/
+Results on map: https://winnipegairquality.com/
+
+Raw JSON: https://winnipegairquality.com/raw

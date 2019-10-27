@@ -3,6 +3,7 @@ import json
 import jinja2
 
 from model.MeasurementModel import MeasurementModel
+from model.LocationModel import LocationModel
 
 log = logging.getLogger()
 log.setLevel(logging.INFO)
@@ -33,10 +34,23 @@ def air_quality_map(event, context):
     )
     template = templateEnv.get_template("default.html")
 
-    page = template.render(locations=get_measurements())
+    markers = []
+    measurements = get_measurements()
+    for m in measurements:
+        name = m['location']
+        value = m['measurement']
+        latitude, longitude = get_coordinates(name)
+
+        markers.append(f'{latitude},{longitude},{name},{value}')
+
+    page = template.render(markers=markers)
     log.info(page)
 
     return page
+
+def get_coordinates(place):
+    res = LocationModel.get(place, "LOCATION")
+    return res.latitude, res.longitude
 
 def get_measurements():
     measurements = []

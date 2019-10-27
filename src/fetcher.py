@@ -21,8 +21,8 @@ def fetch(event, context):
     locations = []
     for item in response['value']:
         name = item['name']
-        latitude = float(item['location']['coordinates'][0])
-        longitude = float(item['location']['coordinates'][1])
+        latitude = float(item['location']['coordinates'][1])
+        longitude = float(item['location']['coordinates'][0])
 
         datastreams = get_datastreams(item)
         measurement_link, unit = find_pm25_stream(datastreams)
