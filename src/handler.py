@@ -1,14 +1,44 @@
+import logging
 import json
+import jinja2
 
 from model.MeasurementModel import MeasurementModel
+
+log = logging.getLogger()
+log.setLevel(logging.INFO)
 
 
 LOCATIONS = ["River East", "St. Boniface #2", "St. James East", "Transcona #2"]
 
-def air_quality(event, context):
+def air_quality_raw(event, context):
     """
-    Just queries the database for the latest measurements and returns them.
+    Just queries the database for the latest measurements and returns them as JSON.
     """
+    body = {
+        'measurements': get_measurements()
+    }
+    return {
+        'statusCode': 200,
+        'body': json.dumps(body)
+    }
+
+def air_quality_map(event, context):
+    """
+    Renders latest air quality measurements on a map.
+    """
+    templateLoader = jinja2.FileSystemLoader(searchpath="src/templates/")
+    templateEnv = jinja2.Environment(
+        loader=templateLoader,
+        autoescape=jinja2.select_autoescape(['html'])
+    )
+    template = templateEnv.get_template("default.html")
+
+    page = template.render(locations=get_measurements())
+    log.info(page)
+
+    return page
+
+def get_measurements():
     measurements = []
     for name in LOCATIONS:
         res = MeasurementModel.query(
@@ -26,12 +56,6 @@ def air_quality(event, context):
         res['unit'] = latest.unit
 
         measurements.append(res)
-
-    body = {
-        'measurements': measurements
-    }
-    return {
-        'statusCode': 200,
-        'body': json.dumps(body)
-    }
+    
+    return measurements
 

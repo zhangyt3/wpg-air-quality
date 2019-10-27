@@ -40,13 +40,30 @@ custom:
   pythonRequirements:
     dockerizePip: non-linux
 
+package:
+  exclude:
+    - node_modules/**
+    - package.json
+    - package-lock.json
+
 functions:
-  air_quality:
-    handler: src/handler.air_quality
+  air_quality_raw:
+    handler: src/handler.air_quality_raw
+    events:
+      - http:
+          path: raw
+          method: get
+  air_quality_map:
+    handler: src/handler.air_quality_map
     events:
       - http:
           path: /
           method: get
+          integration: lambda
+          response:
+            template: $input.path('$')
+            headers:
+              Content-Type: "'text/html'"
   fetch:
     handler: src/fetcher.fetch
     events:
