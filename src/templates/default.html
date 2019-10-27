@@ -63,7 +63,6 @@
       ).addTo(map);
 
       function addMarker(lat, long, label, value) {
-        console.log("Adding marker: " + lat + "," + long);
         var marker = L.marker([lat, long])
           .addTo(map)
           .bindTooltip(label + ":\n" + value + " ug/m3", {
