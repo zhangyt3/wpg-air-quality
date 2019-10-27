@@ -28,9 +28,15 @@ provider:
           - Arn
 
 plugins:
+  - serverless-domain-manager
   - serverless-python-requirements
   - serverless-offline
 custom:
+  customDomain:
+    domainName: "winnipegairquality.com"
+    basePath: ""
+    stage: ${self:provider.stage}
+    createRoute53Record: true
   pythonRequirements:
     dockerizePip: non-linux
 
@@ -38,7 +44,9 @@ functions:
   air_quality:
     handler: src/handler.air_quality
     events:
-      - http: GET air_quality
+      - http:
+          path: /
+          method: get
   fetch:
     handler: src/fetcher.fetch
     events:

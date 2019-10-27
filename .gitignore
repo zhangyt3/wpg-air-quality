@@ -22,6 +22,8 @@ venv/
 node_modules/
 
 s_fetch.py 
+s_air_quality.py
+serverless_sdk/
 
 # Serverless directories
 .serverless
