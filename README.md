@@ -1,5 +1,7 @@
 # Winnipeg Air Quality
 
+[![CircleCI](https://circleci.com/gh/zhangyt3/wpg-air-quality.svg?style=shield)](https://circleci.com/gh/zhangyt3/wpg-air-quality)
+
 This project is mainly just for me to try out [Serverless Framework](https://github.com/serverless/serverless)
 as a way to manage Lambda code deployments and AWS infrastructure.
 
