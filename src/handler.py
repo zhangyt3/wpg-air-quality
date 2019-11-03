@@ -30,12 +30,11 @@ def air_quality_map(event, context):
     Renders latest air quality measurements on a map.
     """
     measurements = get_measurements()
-    coordinates = dict()
     for m in measurements:
         name = m['location']
-        coordinates[name] = get_coordinates(name)
+        m['coordinates'] = get_coordinates(name)
 
-    return render(measurements, coordinates)
+    return render(measurements, "src/templates/")
 
 def get_coordinates(place):
     res = LocationModel.get(place, "LOCATION")

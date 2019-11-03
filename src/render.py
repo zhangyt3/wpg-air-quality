@@ -5,8 +5,8 @@ log = logging.getLogger()
 log.setLevel(logging.WARN)
 
 
-def render(measurements, coordinates):
-    templateLoader = jinja2.FileSystemLoader(searchpath="src/templates/")
+def render(measurements, searchpath):
+    templateLoader = jinja2.FileSystemLoader(searchpath=searchpath)
     templateEnv = jinja2.Environment(
         loader=templateLoader,
         autoescape=jinja2.select_autoescape(['html'])
@@ -17,7 +17,7 @@ def render(measurements, coordinates):
     for m in measurements:
         name = m['location']
         value = m['measurement']
-        latitude, longitude = coordinates[name]
+        latitude, longitude = m['coordinates']
 
         markers.append(f'{latitude},{longitude},{name},{value}')
 
