@@ -5,6 +5,8 @@ import jinja2
 from model.MeasurementModel import MeasurementModel
 from model.LocationModel import LocationModel
 
+from render import render
+
 log = logging.getLogger()
 log.setLevel(logging.INFO)
 
@@ -27,26 +29,13 @@ def air_quality_map(event, context):
     """
     Renders latest air quality measurements on a map.
     """
-    templateLoader = jinja2.FileSystemLoader(searchpath="src/templates/")
-    templateEnv = jinja2.Environment(
-        loader=templateLoader,
-        autoescape=jinja2.select_autoescape(['html'])
-    )
-    template = templateEnv.get_template("default.html")
-
-    markers = []
     measurements = get_measurements()
+    coordinates = dict()
     for m in measurements:
         name = m['location']
-        value = m['measurement']
-        latitude, longitude = get_coordinates(name)
+        coordinates[name] = get_coordinates(name)
 
-        markers.append(f'{latitude},{longitude},{name},{value}')
-
-    page = template.render(markers=markers)
-    log.info(page)
-
-    return page
+    return render(measurements, coordinates)
 
 def get_coordinates(place):
     res = LocationModel.get(place, "LOCATION")
