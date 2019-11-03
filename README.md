@@ -14,3 +14,7 @@ Another Lambda function `air_quality_map` queries the DynamoDB table and display
 Results on map: https://winnipegairquality.com/
 
 Raw JSON: https://winnipegairquality.com/raw
+
+## Architecture Diagram
+
+![architecture diagram](readme-assets/architecture-diagram.png)
